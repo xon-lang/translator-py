@@ -1,0 +1,51 @@
+{
+    "name": "@xon/translator-py",
+    "author": "Nizami",
+    "version": "1.0.0",
+    "description": "XON to Python Translator",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "bugs": {
+        "url": "https://github.com/xon-lang/translator-py/issues"
+    },
+    "homepage": "https://github.com/xon-lang/translator-py#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/xon-lang/translator-py.git"
+    },
+    "keywords": [
+        "xon",
+        "translator",
+        "compiler",
+        "programming language",
+        "python"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "test": "jest --no-cache",
+        "sandbox": "rimraf sandbox/dist && npx tsc -p tsconfig.sandbox.json && node sandbox/dist/sandbox/index.js",
+        "build": "scripts/build.sh",
+        "pre-commit": "scripts/pre-commit.sh",
+        "preversion": "npm run test",
+        "version": "npm run build",
+        "postversion": "git push && cd dist && npm publish --access public && rimraf ../dist"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run pre-commit"
+        }
+    },
+    "devDependencies": {
+        "@types/jest": "^26.0.10",
+        "@types/node": "^14.6.0",
+        "create-ts-index": "^1.13.5",
+        "husky": "^4.2.5",
+        "jest": "^26.4.2",
+        "rimraf": "^3.0.2",
+        "ts-jest": "^26.2.0",
+        "typescript": "^3.9.7"
+    },
+    "dependencies": {
+        "@xon/ast": "^1.2.2"
+    }
+}
