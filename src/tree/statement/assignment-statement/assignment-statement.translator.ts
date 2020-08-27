@@ -20,9 +20,11 @@ export class AssignmentStatementTranslator extends StatementTranslator {
             result += `\n${item.name} = ${valueId}[${item.index}]`;
         }
 
-        // for (const item of this.tree.arrayAssginments) {
-        //     result += `\n${item} = ${valueId}[${item.index}]`;
-        // }
+        for (const item of this.tree.arrayAssginments) {
+            result +=
+                `\n${item} = ${valueId}` +
+                `[${this.tree.startArraysIndex}:${this.tree.endArraysIndex}]`;
+        }
 
         return result;
     }
