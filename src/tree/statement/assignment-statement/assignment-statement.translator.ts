@@ -8,35 +8,22 @@ export class AssignmentStatementTranslator extends StatementTranslator {
     }
 
     translate() {
-        // if only variable
-        const valueTr = getExpressionTranslator(this.tree.value).translate();
-        if (this.tree.name) {
-            if (this.scopes.every((x) => !x.includes(this.tree.name))) {
-                this.currentSope.push(this.tree.name);
-            }
-            return `${this.tree.name} = ${valueTr}`;
+        const value = getExpressionTranslator(this.tree.value).translate();
+        if (this.tree.singleAssigments.length == 1 && this.tree.arrayAssginments.length == 0) {
+            return `${this.tree.singleAssigments[0].name} = ${value}`;
         }
 
-        // for multiple variables
         const valueId = this.getUniqueId();
-        const vars = [
-            valueId,
-            ...this.tree.singleAssigments.map((x) => x.name),
-            ...this.tree.arrayAssginments,
-        ];
+        let result = `${valueId} = ${value}`;
 
-        for (const variable of vars) {
-            if (this.scopes.every((x) => !x.includes(variable))) {
-                this.currentSope.push(variable);
-            }
-        }
-
-        let result = `${valueId} = ${valueTr}`;
-
-        if(this.tree.value.getType().asArray)
         for (const item of this.tree.singleAssigments) {
             result += `\n${item.name} = ${valueId}[${item.index}]`;
         }
-        return `${this.tree.name} = ${valueTr}`;
+
+        // for (const item of this.tree.arrayAssginments) {
+        //     result += `\n${item} = ${valueId}[${item.index}]`;
+        // }
+
+        return result;
     }
 }

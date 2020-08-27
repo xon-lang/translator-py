@@ -1,8 +1,8 @@
 // import { parseCode, AddSubExpressionTree } from '@xon/ast';
 
-test('one_plus_one', () => {
-    const code = '1 + 1';
+test('simple assign', () => {
+    const code = 'a = 5';
     // const tree = parseCode(code, AddSubExpressionTree);
     // const result = getExpressionTranslator(tree).translate();
-    expect(code).toBe('1 + 1');
+    expect(code).toBe('a = 5');
 });

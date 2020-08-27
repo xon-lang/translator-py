@@ -7,7 +7,7 @@ export function indent(s: string) {
         .join('\n');
 }
 
-export function indent_skip_first(s: string) {
+export function indentSkipFirst(s: string) {
     return s
         .split('\n')
         .map((x, i) => (i == 0 ? '' : INDENT_STR) + x)

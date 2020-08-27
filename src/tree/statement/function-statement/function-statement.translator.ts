@@ -8,6 +8,6 @@ export class FunctionStatementTranslator extends BaseTranslator {
     }
 
     translate() {
-        return `function ` + new FunctionTranslator(this.tree.value).translate();
+        return new FunctionTranslator(this.tree.value).translate();
     }
 }
