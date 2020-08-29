@@ -5,5 +5,5 @@ test('logical and', () => {
     const code = '88 &&  1 ';
     const tree = parseCode(code, LogicalAndExpressionTree);
     const result = getExpressionTranslator(tree).translate();
-    expect(result).toBe('88 && 1');
+    expect(result).toBe('88 and 1');
 });

@@ -18,8 +18,7 @@ export class ProgramTranslator extends BaseTranslator {
         let functions = [];
         for (const stmt of this.tree.statements.map(getStatementTranslator)) {
             if (stmt instanceof FunctionStatementTranslator) {
-                const exportOp = stmt.tree.value.name.startsWith('_') ? `` : 'export ';
-                functions.push(`${exportOp}` + stmt.translate());
+                functions.push(stmt.translate());
             } else {
                 statements.push(stmt.translate());
             }

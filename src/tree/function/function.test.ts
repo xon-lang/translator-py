@@ -7,5 +7,5 @@ test('function', () => {
     const code = 'do (a): 1+1';
     const tree = parseCode(code, FunctionTree);
     const result = new FunctionTranslator(tree).translate();
-    expect(result).toBe('do (a):\n    1 + 1');
+    expect(result).toBe('def do (a):\n    1 + 1');
 });

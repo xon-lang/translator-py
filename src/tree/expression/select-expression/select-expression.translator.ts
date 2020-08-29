@@ -13,17 +13,19 @@ export class SelectExpressionTranslator extends ExpressionTranslator {
         let results = [];
         const value = this.tree.value && getExpressionTranslator(this.tree.value).translate();
         for (const item of this.tree.cases) {
-            let result = ''
+            let result = '';
             if (value) {
-                result += `(${value} === ${getExpressionTranslator(item.value).translate()}) and `
+                result += `(${value} === ${getExpressionTranslator(item.value).translate()}) and `;
             } else {
-                result += `(${getExpressionTranslator(item.value).translate()}) and`
+                result += `(${getExpressionTranslator(item.value).translate()}) and `;
             }
 
-            result += `(${item.statements.map(x => getStatementTranslator(x).translate()).join(', ')})`
+            result += `(${item.statements
+                .map((x) => getStatementTranslator(x).translate())
+                .join(', ')})`;
             results.push(result);
         }
 
-        return '(' + results.join(`\n${INDENT_STR}||`) + ')';
+        return '(' + results.join(`\n${INDENT_STR}or `) + ')';
     }
 }

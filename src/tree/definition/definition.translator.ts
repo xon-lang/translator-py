@@ -11,22 +11,21 @@ export class DefinitionTranslator extends BaseTranslator {
     }
 
     translate() {
-        let header = `${this.tree.name.startsWith('_') ? '' : 'export '}class ${this.tree.name} {`;
+        let header = `class ${this.tree.name}:`;
 
         let properties = [];
         for (const prop of this.tree.properties) {
-            const name = prop.name.startsWith('_') ? `private ${prop.name}` : prop.name;
+            const name = prop.name.startsWith('_') ? `${prop.name}` : prop.name;
             const type = prop.type ? ': ' + getType(prop.type) : '';
             const value = prop.value ? ` = ${getExpressionTranslator(prop.value).translate()}` : '';
-            properties.push(`${INDENT_STR}${name}${type}${value};`);
+            properties.push(`${INDENT_STR}${name}${type}${value}`);
         }
 
         let methods = [];
         for (const method of this.tree.methods) {
-            const private_tr = method.name.startsWith('_') ? `private ` : '';
-            methods.push(indent(`${private_tr}` + new FunctionTranslator(method).translate()));
+            methods.push(indent(new FunctionTranslator(method).translate()));
         }
 
-        return `${header}\n${properties.join('\n')}\n\n${methods.join('\n\n')}\n}`;
+        return `${header}\n${properties.join('\n')}\n\n${methods.join('\n\n')}`;
     }
 }

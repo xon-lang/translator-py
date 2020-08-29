@@ -10,6 +10,6 @@ export class LogicalOrExpressionTranslator extends ExpressionTranslator {
     translate() {
         const left = getExpressionTranslator(this.tree.left).translate();
         const right = getExpressionTranslator(this.tree.right).translate();
-        return `${left} || ${right}`;
+        return `${left} or ${right}`;
     }
 }

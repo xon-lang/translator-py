@@ -30,6 +30,6 @@ export class FunctionTranslator extends BaseTranslator {
             vars = `\n${INDENT_STR}${vars};`;
         }
 
-        return `${header}${vars}\n${indent(statements)}`;
+        return `def ${header}${vars}\n${indent(statements)}`;
     }
 }
