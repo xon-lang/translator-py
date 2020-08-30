@@ -19,10 +19,11 @@ export class IfExpressionTranslator extends ExpressionTranslator {
         let result = `if ${ifCondition}:\n${indent(ifStatements)}`;
 
         if (this.tree.elseStatements) {
-            result += ` else `;
             if (this.tree.elseCondition) {
                 const elseCondition = getExpressionTranslator(this.tree.elseCondition).translate();
-                result += `if ${elseCondition}:`;
+                result += `\nelif ${elseCondition}:`;
+            } else {
+                result += `\nelse:`;
             }
             const elseStatements = this.tree.elseStatements
                 .map(getStatementTranslator)
