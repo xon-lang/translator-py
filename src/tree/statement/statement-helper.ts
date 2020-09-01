@@ -6,6 +6,7 @@ import { LineBreakStatementTranslator } from './line-break-statement/line-break-
 import { PreprocessorStatementTranslator } from './preprocessor-statement/preprocessor-statement.translator';
 import { ReturnStatementTranslator } from './return-statement/return-statement.translator';
 import { StatementTranslator } from './statement.translator';
+import { EOL } from '../../util/string.util';
 
 export function getStatementTranslator(tree: StatementTree): StatementTranslator {
     if (tree instanceof AssignmentStatementTree) return new AssignmentStatementTranslator(tree);
@@ -16,4 +17,13 @@ export function getStatementTranslator(tree: StatementTree): StatementTranslator
     if (tree instanceof FunctionStatementTree) return new FunctionStatementTranslator(tree);
 
     throw Error('No Statement found for ' + tree.treeType);
+}
+
+
+export function translateStatementTrees(tree: StatementTree): string {
+    return getStatementTranslator(tree).translate();
+}
+
+export function translateStatementsTrees(tree: StatementTree[]): string {
+    return tree.map((x) => getStatementTranslator(x).translate()).join(EOL);
 }

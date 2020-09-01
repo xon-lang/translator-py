@@ -1,8 +1,8 @@
 import { IfExpressionTree } from '@xon/ast';
 import '../../../util/string.util';
 import { indent } from '../../../util/string.util';
-import { getStatementTranslator } from '../../statement/statement-helper';
-import { getExpressionTranslator } from '../expression-helper';
+import { translateStatementsTrees } from '../../statement/statement-helper';
+import { translateExpressionTree } from '../expression-helper';
 import { ExpressionTranslator } from '../expression.translator';
 
 export class IfExpressionTranslator extends ExpressionTranslator {
@@ -11,26 +11,19 @@ export class IfExpressionTranslator extends ExpressionTranslator {
     }
 
     translate() {
-        const ifCondition = getExpressionTranslator(this.tree.ifCondition).translate();
-        const ifStatements = this.tree.ifStatements
-            .map((x) => getStatementTranslator(x).translate())
-            .join('\n');
-
-        let result = `if ${ifCondition}:\n${indent(ifStatements)}`;
-
-        if (this.tree.elseStatements) {
-            if (this.tree.elseCondition) {
-                const elseCondition = getExpressionTranslator(this.tree.elseCondition).translate();
-                result += `\nelif ${elseCondition}:`;
-            } else {
-                result += `\nelse:`;
+        let result = '';
+        for (const item of this.tree.items) {
+            if (item.hasElse && !item.hasIf) {
+                result += 'else';
             }
-            const elseStatements = this.tree.elseStatements
-                .map(getStatementTranslator)
-                .map((x) => x.translate())
-                .join('\n');
-            result += `\n${indent(elseStatements)}`;
+            if (item.condition) {
+                const codition = translateExpressionTree(item.condition);
+                result += `${item.hasElse ? 'elif' : 'if'} ${codition}`;
+            }
+            const statements = translateStatementsTrees(item.statements);
+            result += `:\n${indent(statements)}\n`;
         }
-        return result;
+
+        return result.trim();
     }
 }

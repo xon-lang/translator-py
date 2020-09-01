@@ -5,8 +5,16 @@ test('if', () => {
     expect(translateExpression(code)).toBe('if a == 4 and b > 5:\n    do()');
 });
 
-// test('if else', () => {
-//     const code = 'if a== 1 && b>8: do()\nelse: 8+8';
-//     console.log(translateExpression(code))
-//     expect(translateExpression(code)).toBe('if a == 1 and b > 8:\n    do()\nelse: 8 + 8');
-// });
+test('if else', () => {
+    const code = 'if a== 4 && b>5: do() elif 44: dodo() else: 77';
+    expect(translateExpression(code)).toBe(
+        `
+if a == 4 and b > 5:
+    do()
+elif 44:
+    dodo()
+else:
+    77
+`.trim()
+    );
+});
